@@ -16,7 +16,7 @@ long long solve(long long num){
 	top = log(num) / log2;
 
 	while (tmp > 0) {//前面的1清零直到num的二进制中的最靠左的0出现 
-		tmp = tmp - (1<<(top - i));
+		tmp -= (1<<(top - i));
 		i++;
 	}
 
@@ -31,5 +31,6 @@ long long solve(long long num){
 int main(int argc, char *argv[]) {
 	long long num = atol(argv[1]);
 	cout << solve(num) << endl;
+
 	return 0;
 }
