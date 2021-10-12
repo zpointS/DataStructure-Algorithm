@@ -1,0 +1,6 @@
+Graphviz_2.28.0.msi 是一个专用的绘图软件，采用dot语言进行图像绘制。
+官网免费下载链接：
+http://www.graphviz.org/pub/graphviz/development/windows/
+安装完毕后如果dot在cmd中不能正常调用，则需要手动添加环境变量。
+
+DOT相关语法可以从网上搜索获得。即使不去阅读也可。提供代码中已经做好了dot的绘制函数。

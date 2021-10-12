@@ -1,0 +1,30 @@
+digraph heapT {
+fontname = "Microsoft YaHei"; labelloc = t; labeljust = l; rankdir = TB;
+label = "Current Heap Situation";
+node [fontname = "Microsoft YaHei", color=darkgreen, shape=circle, height=.1];
+edge [fontname = "Microsoft YaHei", color=darkgreen, style=solid, arrowsize=0.7];
+75[label="75"];
+76[label="76"];
+78[label="78"];
+81[label="81"];
+79[label="79"];
+90[label="90"];
+99[label="99"];
+84[label="84"];
+94[label="94"];
+98[label="98"];
+75:sw -> 76;
+75:se -> 78;
+76:sw -> 81;
+76:se -> 79;
+78:sw -> 90;
+78:se -> 99;
+81:sw -> 84;
+81:se -> 94;
+79:sw -> 98;
+node [fontname = "Microsoft YaHei", color=darkgreen, shape=record, height=.1];
+edge [fontname = "Microsoft YaHei", color=darkgreen, style=solid];
+struct [ label = "{value|address} |{|0} | {75|1} | {76|2} | {78|3} | {81|4} | {79|5} | {90|6} | {99|7} | {84|8} | {94|9} | {98|10} "]; 
+98 -> struct[color=white]; 
+}
+
