@@ -22,5 +22,7 @@
         argv[3]指向执行程序名后的第三个字符串 
         argv[argc]为NULL。
 
-
+## VSCode中的配置类问题
+### [使用其他库/头文件](https://blog.csdn.net/cbc000/article/details/80670413)
+Ctrl+Shift+P 搜索Edit configuration中添加json文件后，写入头文件的相对路径。
 
