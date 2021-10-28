@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Program Files (x86)\\Microsoft SDKs\\MPI\\Include\\*"
                 //"库文件的地址"，是相对路径
             ],
             "defines": [
