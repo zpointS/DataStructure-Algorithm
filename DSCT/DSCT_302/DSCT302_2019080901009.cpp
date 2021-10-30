@@ -4,6 +4,7 @@ using namespace std;
 
 LL maxdepth(LL n){
 	LL a=1, b=2, c=0;
+	//利用斐波那契数列计算最大可能深度
 	for (int depth = 1;;++depth){
 		if(n>=a && n<b)
 			return depth;
