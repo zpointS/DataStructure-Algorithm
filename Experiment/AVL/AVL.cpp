@@ -207,15 +207,21 @@ void  DotOrder(AVLTree root, FILE *fp) /*ÏÈÐò±éÀú¶þ²æÊ÷, rootÎªÖ¸Ïò¶þ²æÊ÷¸ù½áµãµ
 {
 	if(root==NULL || !(root->lchild || root->rchild))
 		return;
-	if(root->lchild)
-		fprintf(fp,"%d:sw -> %d ;\n",root->key,root->lchild->key);
-	else
-	{
+	char lpoint = root->lchild ? 'L' : ' ';
+	char rpoint = root->rchild ? 'R' : ' ';
+	if(root->lchild){
+		fprintf(fp,"%d:sw -> %d;\n",root->key,root->lchild->key);
+		fprintf(fp,"%d[shape=record, label = \"<l>%c|<d>%d|<r>%c\"];\n",root->key,lpoint,root->key,rpoint);
+	}
+	else{
 		fprintf(fp,"NULL%dL[label=\"NULL\",shape=none] ;\n",root->key);
 		fprintf(fp,"%d:sw -> NULL%dL ;\n",root->key,root->key);
 	}
-	if(root->rchild)
-		fprintf(fp,"%d:se -> %d ;\n",root->key,root->rchild->key);
+
+	if(root->rchild){
+		fprintf(fp,"%d:se -> %d;\n",root->key,root->rchild->key);
+		fprintf(fp,"%d[shape=record, label = \"<l>%c|<d>%d|<r>%c\"];\n",root->key,lpoint,root->key,rpoint);
+	}
 	else
 	{
 		fprintf(fp,"NULL%dR[label=\"NULL\",shape=none] ;\n",root->key);
@@ -229,6 +235,8 @@ void MakeDot(AVLTree root)
 {
 	FILE *fp=fopen("AVL.gv","w+");
 	fprintf(fp,"digraph AVL {\n");
+	fprintf(fp,"node [fontname = Verdana, color=indigo, shape=Mrecord, height=0.1];\n");
+	fprintf(fp,"edge [fontname = Verdana, color=indigo, style=solid];\n");
 	DotOrder(root,fp);
 	fprintf(fp,"}\n");
 	fclose(fp);

@@ -14,7 +14,7 @@ typedef struct node
 void Dijkstradot(MGraph g, int *path, bool *visited , int vs)
 {
 	FILE *fp=fopen("Dijkstra.gv","w+");
-	fprintf(fp,"digraph Dijkstra {\nnode [shape=ellipse];\n");
+	fprintf(fp, "digraph Dijkstra {\nnode [shape=ellipse];\nsize=\"20,20\";\n");
 	fprintf(fp,"v%d[shape=diamond,color=red,fontcolor=red];\n",vs);
 	for (int i = 0; i < g.n && i != vs; i++)
 		fprintf(fp,"v%d;\n",i);
@@ -27,8 +27,8 @@ void Dijkstradot(MGraph g, int *path, bool *visited , int vs)
 			{
 				if(visited[i]==true&&visited[j]==true&&path[j]==i)
 				{
-					fprintf(fp,"v%d[fontcolor=red,color=red];\n",i);
-					fprintf(fp,"v%d[fontcolor=red,color=red];\n",j);
+					fprintf(fp,"v%d[fontcolor=red,color=red,height=.1];\n",i);
+					fprintf(fp,"v%d[fontcolor=red,color=red,height=.1];\n",j);
 					fprintf(fp,"v%d->v%d[style=bold,label=%d,fontcolor=red,color=red];\n",i,j,g.matrix[i][j]);
 				}
 				else
@@ -62,8 +62,8 @@ void DijkstraPath(MGraph g,int *dist,int *path,int vs)   //vs表示源顶点
         dist[vs]=0;
     }
     FILE *fp=fopen("Dijkstra.gv","w+");
-	fprintf(fp,"digraph Dijkstra {\nnode [shape=ellipse];\n");
-	fprintf(fp,"v%d[shape=diamond,color=red,fontcolor=red];\n",vs);
+	fprintf(fp, "digraph Dijkstra {\nnode [shape=ellipse];\nsize=\"20,20\";\n");
+	fprintf(fp,"v%d[shape=diamond,color=red,fontcolor=red,height=.1];\n",vs);
 	for (int i = 0; i < g.n && i != vs; i++)
 		fprintf(fp,"v%d; ",i);
 	for (int i = 0; i < g.n; i++)  
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 	int vs = 0;
 	
     FILE *fp=fopen("DijkInitGraph.gv","w+");
-	fprintf(fp,"digraph DijkInitGraph {\nnode [shape=ellipse];\n");
+	fprintf(fp, "digraph DijkInitGraph {\nnode [shape=ellipse];\nsize=\"20,20\";\n");
 	fprintf(fp,"v%d[shape=diamond];\n",vs);
 	for (int i = 0; i < g.n && i != vs; i++)
 		fprintf(fp,"v%d; ",i);

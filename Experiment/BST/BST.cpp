@@ -9,7 +9,7 @@ typedef struct  node
 {
 	KeyType  key ; /*关键字的值*/
 	struct node  *lchild,*rchild;/*左右指针*/
-	int flag;
+	int flag;//画图用
 }BSTNode, *BSTree;
 
 void InsertBST(BSTree *bst, KeyType key)
@@ -32,7 +32,6 @@ void InsertBST(BSTree *bst, KeyType key)
 			if (key > (*bst)->key)
 				InsertBST(&((*bst)->rchild), key); /*将s插入右子树*/
 }
-
 
 void  CreateBST(BSTree  *bst, char * filename)
 /*从文件输入元素的值，创建相应的二叉排序树*/
@@ -104,6 +103,7 @@ BSTNode  * DelBST(BSTree t, KeyType  k) /*在二叉排序树t中删去关键字为k的结点*/
 			p=p->rchild;
 	} 
 	if(p==NULL)  return t;  /*若找不到，返回原来的二叉排序树*/
+
 	if(p->lchild==NULL)  /*p无左子树*/
 	{ 
 		if(f==NULL) 
@@ -117,18 +117,18 @@ BSTNode  * DelBST(BSTree t, KeyType  k) /*在二叉排序树t中删去关键字为k的结点*/
 	}
 	else  /*p有左子树*/
 	{ 
-		q=p; 
+		q=p;
 		s=p->lchild;
 		while(s->rchild)  /*在p的左子树中查找最右下结点*/
 		{
 			q=s; 
 			s=s->rchild;
 		}
-		if(q==p) 
+		if(q==p) //此时q会是s的父节点
 			q->lchild=s->lchild ;  /*将s的左子树链到q上*/
 		else 
 			q->rchild=s->lchild;
-		p->key=s->key;  /*将s的值赋给p*/
+		p->key=s->key;  /*将s的值赋给p，以达成删除的目的*/
 		free(s);
 	}
 	return t;
@@ -139,15 +139,15 @@ void  DotOrderList(BSTree root, FILE *fp)
 {
 	if(root==NULL)
 		return;
-	char lpoint = root->lchild ? ' ' : ' ';
-	char rpoint = root->rchild ? ' ' : ' ';
+	char lpoint = root->lchild ? 'L' : ' ';
+	char rpoint = root->rchild ? 'R' : ' ';
 	if(root->flag==1)
 	{
-		fprintf(fp,"%d[label = \"<l>%c|<d>%d|<r>%c\",color=green];\n",root->key,lpoint,root->key,rpoint);
+		fprintf(fp,"%d[shape=record, label = \"<l>%c|<d>%d|<r>%c\",color=indigo];\n",root->key,lpoint,root->key,rpoint);
 	}
 	else if(root->flag==2)
 	{
-		fprintf(fp,"%d[label = \"<l>%c|<d>%d|<r>%c\",color=red,fontcolor=red];\n",root->key,lpoint,root->key,rpoint);
+		fprintf(fp,"%d[shape=doubleoctagon, style=filled, color=crimson];\n",root->key);
 	}
 	else
 		fprintf(fp,"%d[label = \"<l>%c|<d>%d|<r>%c\"];\n",root->key,lpoint,root->key,rpoint);
@@ -160,11 +160,25 @@ void  DotOrderLink(BSTree root, FILE *fp)
 	if(root==NULL)
 		return;
 	
-	if(root->lchild)
-		fprintf(fp,"%d:l:sw -> %d:d;\n",root->key,root->lchild->key);
+	if(root->lchild){
+		if(root->lchild->flag==1)
+			fprintf(fp,"%d:l:sw -> %d:d [style=bold,color=indigo];\n",root->key,root->lchild->key);
+		else if(root->lchild->flag==2)
+			fprintf(fp,"%d:l:sw -> %d:d [style=bold,color=crimson];\n",root->key,root->lchild->key);
+		else
+			fprintf(fp,"%d:l:sw -> %d:d;\n",root->key,root->lchild->key);
+	}
+		
 	
-	if(root->rchild)
-		fprintf(fp,"%d:r:se -> %d:d;\n",root->key,root->rchild->key);
+	if(root->rchild){
+		if(root->rchild->flag==1)
+			fprintf(fp,"%d:r:se -> %d:d [style=bold, color=indigo];\n",root->key,root->rchild->key);
+		else if(root->rchild->flag==2)
+			fprintf(fp,"%d:r:se -> %d:d [style=bold, color=crimson];\n",root->key,root->rchild->key);
+		else
+			fprintf(fp,"%d:r:se -> %d:d;\n",root->key,root->rchild->key);
+	}
+		
 
 	DotOrderLink(root->lchild,fp);
 	DotOrderLink(root->rchild,fp);
@@ -179,8 +193,8 @@ void MakeDot(BSTree root, char * tital=NULL)
 		fprintf(fp,"labelloc = t; labeljust = l;\n");
 		fprintf(fp,"label = \"%s\";\n",tital);		
 	}
-	fprintf(fp,"node [fontname = Verdana, color=navy, shape=record, height=.1];\n");
-	fprintf(fp,"edge [fontname = Verdana, color=navy, style=solid];\n");
+	fprintf(fp,"node [fontname = Verdana, color=seagreen, shape=Mrecord, height=0.1];\n");
+	fprintf(fp,"edge [fontname = Verdana, color=seagreen, style=solid];\n");
 	DotOrderList(root,fp);
 	DotOrderLink(root,fp);
 	fprintf(fp,"}\n\n");
@@ -198,14 +212,19 @@ int main(int argc, char *argv[])
 	
 	PreOrderCleanFlag(T);
 	system("dot.exe -Tpng bst.gv -o bst.png");
-	SearchBST(T,62);
+	SearchBST(T,664);
 	MakeDot(T);
-	system("dot.exe -Tpng bst.gv -o bst_search(62).png");
+	system("dot.exe -Tpng bst.gv -o bst_search(664).png");
 	
 	PreOrderCleanFlag(T);
-	SearchBST(T,98); 
+	SearchBST(T,528); 
 	MakeDot(T);
-	system("dot.exe -Tpng bst.gv -o bst_search(98).png");
+	system("dot.exe -Tpng bst.gv -o bst_search(528).png");
+
+	PreOrderCleanFlag(T);
+	SearchBST(T,603); 
+	MakeDot(T);
+	system("dot.exe -Tpng bst.gv -o bst_search(603).png");
 	
 	PreOrderCleanFlag(T);
 	DestroyBST(T);

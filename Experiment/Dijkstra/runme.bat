@@ -1,5 +1,5 @@
 @echo off
 call clean
 @echo on
-Dijkstra.exe 16 32
+Dijkstra.exe 12 18
 pause
